@@ -1,3 +1,11 @@
+/*
+ * Insert a new document on a mongo database.
+ *
+ * @param params.MONGO_CA			SSL certificate to connect to a mongoDB instance
+ * @param params.MONGO_URI			URI to connect
+ * @param params.MONGO_DATABASE		mongoDB database to add a new doc
+ * @param params.MONGO_COLLECTION	mongoDB collection to add a new doc
+*/
 function main(params) {
 	console.log("Inserting new doc to mongoDB:", params);
 	var MongoClient = require("mongodb").MongoClient;

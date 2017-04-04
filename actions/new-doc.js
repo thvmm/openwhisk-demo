@@ -1,5 +1,6 @@
 /*
- * Insert a new document on a mongo database.
+ * Insert a new document on a mongo database. Can be used to insert many documents at once:
+ * params.doc could be a json doc ({...}) or a json array ([...]).
  *
  * @param params.MONGO_CA			SSL certificate to connect to a mongoDB instance
  * @param params.MONGO_URI			URI to connect
@@ -30,17 +31,30 @@ function main(params) {
 				reject(err);
 			} else {
 				var mongodb = db.db(params.MONGO_DATABASE);
-
-				mongodb.collection(params.MONGO_COLLECTION).insertOne(params.doc, function(error, result) {
-					if (error) {
-						console.log("Something went wrong on inserting a new doc...");
-						reject(result);
-					} else {
-						console.log("Document successfully inserted!");
-						resolve(result);
-					}
-					db.close();
-				});
+				if(Array.isArray(params.doc)) {
+					mongodb.collection(params.MONGO_COLLECTION).insertMany(params.doc, function(error, result) {
+						if (error) {
+							console.log("Something went wrong on inserting a new doc...");
+							reject(result);
+						} else {
+							console.log("Document successfully inserted!");
+							resolve(result);
+						}
+						db.close();
+					});
+				}
+				else {
+					mongodb.collection(params.MONGO_COLLECTION).insertOne(params.doc, function(error, result) {
+						if (error) {
+							console.log("Something went wrong on inserting a new doc...");
+							reject(result);
+						} else {
+							console.log("Document successfully inserted!");
+							resolve(result);
+						}
+						db.close();
+					});
+				}
 			}
 		})
 	});

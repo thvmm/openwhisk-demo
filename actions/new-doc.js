@@ -39,6 +39,7 @@ function main(params) {
 						console.log("Document successfully inserted!");
 						resolve(result);
 					}
+					db.close();
 				});
 			}
 		})

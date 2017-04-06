@@ -22,6 +22,12 @@ function install() {
     --param MONGO_DATABASE "$MONGO_DATABASE" \
     --param MONGO_COLLECTION "$MONGO_COLLECTION"
 
+  wsk action create mongo/update-doc actions/update-doc.js \
+    --param MONGO_CA "$MONGO_CA" \
+    --param MONGO_URI "$MONGO_URI" \
+    --param MONGO_DATABASE "$MONGO_DATABASE" \
+    --param MONGO_COLLECTION "$MONGO_COLLECTION"
+
 
   wsk action create mongo/get-doc actions/get-doc.js \
     --param MONGO_COLLECTION "$MONGO_COLLECTION" \
@@ -35,6 +41,7 @@ function install() {
 function uninstall() {
   echo -e "${RED}Uninstalling..."
   wsk action delete mongo/new-doc
+  wsk action delete mongo/update-doc
   wsk action delete mongo/get-doc
   echo -e "${NC}"
 }
